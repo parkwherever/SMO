@@ -10,9 +10,9 @@ E2 = E(i2);
 r2 = E2*y2;
 
 didUpdate = 0;
-if( r2 < -Eps & alph2 < C) | (r2 > Eps & alph2 > 0)
+if( r2 < -Eps && alph2 < C) || (r2 > Eps && alph2 > 0)
     % find non zero indexes
-    nonZeroIndexes = find (Alphas ~= 0 & abs(Alphas) < C);
+    nonZeroIndexes = find (Alphas ~= 0 & (Alphas < C | Alphas > -C));
     if ~isempty(nonZeroIndexes)
         % find second choice heuristic - most likely to maximize step size
         % choose max of negative error if label positive, and vice versa
@@ -31,32 +31,31 @@ if( r2 < -Eps & alph2 < C) | (r2 > Eps & alph2 > 0)
                 i1 = indexes(end);
             end
         end
-                
         
         % if update, then successful heuristic approximation
         if (takeStep(i1,i2) == 1)
             didUpdate = 1;
             return;
         end
-        
-        % loop over all possible non zero and non-c alpha, starting at random point
-        randomIndexes = randperm(length(nonZeroIndexes));
-        for j=1:length(nonZeroIndexes)
-            if (takeStep(randomIndexes(j),i2) == 1)
-                didUpdate = 1;
-                return
-            end
-        end
-        
-        % loop over all possible i1, starting at random point
-        randomIndexes = randperm(length(Alphas));
-        for j=1:length(Alphas)
-            if (takeStep(randomIndexes(j),i2) == 1)
-                didUpdate = 1;
-                return
-            end
+    end
+
+    % loop over all possible non zero and non-c alpha, starting at random point
+    randomIndexes = randperm(length(nonZeroIndexes));
+    for j=1:length(nonZeroIndexes)
+        if (takeStep(randomIndexes(j),i2) == 1)
+            didUpdate = 1;
+            return
         end
     end
+
+    % loop over all possible i1, starting at random point
+    randomIndexes = randperm(length(Alphas));
+    for j=1:length(Alphas)
+        if (takeStep(randomIndexes(j),i2) == 1)
+            didUpdate = 1;
+            return
+        end
+    end  
 end
 
 return

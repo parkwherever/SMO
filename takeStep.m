@@ -11,7 +11,7 @@ function [ didUpdate ] = takeStep( i1, i2 )
 %   iteration
 % b is offset value for current iteration
 % w is normal vector for current iteration
-global K E Alphas Labels b Eps;
+global K E Alphas Labels b Eps C;
 
 %initialize return params
 didUpdate = 0;
@@ -24,6 +24,7 @@ alph1 = Alphas(i1);
 alph2 = Alphas(i2);
 Y1 = Labels(i1);
 Y2 = Labels(i2);
+s = Y1*Y2;
 
 %will need to calculate if not present in cache
 %FIXME is this initilization in trainSVM right?
@@ -73,15 +74,15 @@ else
 end
 
  %check to see if update was made between a2 and alph2, if not, return
- if (abs(a2 -alph2) < Eps (a2* alph2 * Eps))
+ if (abs(a2 -alph2) < Eps * (a2 + alph2 + Eps))
      return;
  end
  
 a1 = alph1+ s * (alph2-a2);
 
 %update threshold to reflect change in lagrange
-b1 = E(i1) + y1 * (a1 - alph1) * K(i1,i1) + y2 * (a2 - alph2) * K(i1,i2) + b;
-b2 = E(i2) + y1 * (a1 - alph1) * K(i1,i2) + y2 * (a2 - alph2) * K(i2,i2) + b;
+b1 = E(i1) + Y1 * (a1 - alph1) * K(i1,i1) + Y2 * (a2 - alph2) * K(i1,i2) + b;
+b2 = E(i2) + Y1 * (a1 - alph1) * K(i1,i2) + Y2 * (a2 - alph2) * K(i2,i2) + b;
 
 if (b1 == b2)
     b = b1;
