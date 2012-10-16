@@ -87,7 +87,15 @@ b2 = E(i2) + Y1 * (a1 - alph1) * K(i1,i2) + Y2 * (a2 - alph2) * K(i2,i2) + b;
 if (b1 == b2)
     b = b1;
 else
-    b = (b1+b2)/2;
+    % one of these alphas is at an edge
+    %FIXME are these bounds the same for a1 and a2?
+    if a1 == H || a1 == L
+        b = b1
+    elseif a2 == H || a2 == L
+        b = b2
+    else
+        b = (b1+b2)/2;
+    end
 end
 
 %update made, update alphas and error cache
