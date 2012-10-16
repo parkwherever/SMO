@@ -1,13 +1,14 @@
-function [alphas,b]=trainSVM(Kern,C, trainLabels)
+function [alphas,b]=trainSVM(Kern,Cslack, trainLabels)
 % K = kernel(trainPoints,trainPoints);
 % c = margin
 %TRAINSVM Summary of this function goes here
 %   Detailed explanation goes here
 
 %main function
-global K E B Alphas Labels Eps;
+global K E B Alphas Labels Eps C;
 Labels = trainLabels;
 K = Kern;
+C = Cslack;
 
 %precision point
 Eps = 10^(-3);

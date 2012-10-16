@@ -10,8 +10,7 @@ E2 = E(i2);
 r2 = E2*y2;
 
 didUpdate = 0;
-
-if(( r2 < -Eps & alph2 < C) | (r2 > Eps & alph2 > 0))
+if( r2 < -Eps & alph2 < C) | (r2 > Eps & alph2 > 0)
     % find non zero indexes
     nonZeroIndexes = find (Alphas ~= 0 & abs(Alphas) < C);
     if ~isempty(nonZeroIndexes)
