@@ -93,7 +93,7 @@ end
 %update made, update alphas and error cache
 Alphas(i1) = a1;
 Alphas(i2) = a2;
-E(i2) = SVMOutput(i2) - y2;
+E(i2) = SVMOutput(i2) - Y2;
 
 didUpdate = 1;
 return;

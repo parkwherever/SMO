@@ -17,7 +17,7 @@ Eps = 10^(-3);
 dataSetSize = length(Labels);
 
 B = 0;
-Alphas = zeros(dataSetSize);
+Alphas = zeros(dataSetSize,1);
 
 % set error to be the worst, so it will be improved
 %FIXME: does this work?
@@ -41,14 +41,15 @@ while numChanged >0 || examineAll
                 numChanged = numChanged + examineExample(i);
             end
         end
-        
-        if (examineAll == 1)
-            examineAll = 0;
-        elseif (numChanged == 0)
-            examineAll = 1;
-        end
+    end
+    
+    if (examineAll == 1)
+        examineAll = 0;
+    elseif (numChanged == 0)
+        examineAll = 1;
     end
 end
 
+b = B;
 alphas = Alphas;
 

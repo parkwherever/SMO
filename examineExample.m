@@ -37,14 +37,14 @@ if( r2 < -Eps && alph2 < C) || (r2 > Eps && alph2 > 0)
             didUpdate = 1;
             return;
         end
-    end
 
-    % loop over all possible non zero and non-c alpha, starting at random point
-    randomIndexes = randperm(length(nonZeroIndexes));
-    for j=1:length(nonZeroIndexes)
-        if (takeStep(randomIndexes(j),i2) == 1)
-            didUpdate = 1;
-            return
+        % loop over all possible non zero and non-c alpha, starting at random point
+        randomIndexes = randperm(length(nonZeroIndexes));
+        for j=1:length(nonZeroIndexes)
+            if (takeStep(randomIndexes(j),i2) == 1)
+                didUpdate = 1;
+                return
+            end
         end
     end
 
